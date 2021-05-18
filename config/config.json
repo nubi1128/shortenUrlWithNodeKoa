@@ -1,0 +1,24 @@
+{
+	"development": {
+		"username": "root",
+		"password": "new-password",
+		"database": "database_development",
+		"host": "localhost",
+		"dialect": "mysql"
+	},
+	"test": {
+		"username": "root",
+		"password": "new-password",
+		"database": "database_test",
+		"host": "localhost",
+		"dialect": "mysql"
+	},
+	"production": {
+		"username": "root",
+		"password": "new-password",
+		"database": "database_production",
+		"host": "localhost",
+		"dialect": "mysql"
+	},
+	"hostName": "http://54.245.28.42:3000"
+}
