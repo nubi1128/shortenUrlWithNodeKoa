@@ -1,17 +1,17 @@
 import Models from '../models';
 
-async function getUrlByShorten(shortUrl) {
-	console.log("shortUrl" + shortUrl);
-	return await Models.Url.findOne({where: {Num: shortUrl}})
+async function getUrlByNum(uuid) {
+	return await Models.Url.findOne({where: {uuid: uuid}})
 }
 
 export async function expandUrlController(ctx) {
-	let shortUrl = parseInt(ctx.params.shortUrl);
-	if (isNaN(shortUrl)) {
+	let uuid = ctx.params.shortUrl;
+	let obj = await getUrlByNum(uuid);
+	if (obj == null) {
 		ctx.redirect('/shorten');
-		return
-	} 
-	let obj = await getUrlByShorten(shortUrl);
-	let url = obj.dataValues.Url;
+		return;
+	}
+
+	let url = obj.dataValues.originalUrl;
 	ctx.redirect(url);
 }

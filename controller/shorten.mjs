@@ -1,31 +1,42 @@
 import Models from '../models';
 import config from '../config/config.json'
-
+import Sequelize from 'sequelize';
 const hostName = config["hostName"]
 const expandPath = "expand"
 
-let count = 0
-
 function shortenUrlExec(url) {
-	count += 1
-
-	var modelUrl = {
-		Num: count,
-		Url: url,
+	let time = Date.now();
+	let uuid = time.toString();
+	let modelUrl = {
+		uuid: uuid,
+		originalUrl: url,
 		createdAt: new Date()
 	};
 	
 	Models.Url.create(modelUrl);
-	return count
+	
+	return uuid
 }
 
-export function getShortenHtmlController(ctx) {
-	ctx.response.body = `
+function beforeShortenView() {
+	return `
 		<form action="./shorten" method="post">
 			<input type="text" name="target">
 			<input type="submit" value="submit">
 		</form>
 	`
+}
+
+function afterShortenView(url, shortUrl) {
+	return ` 
+		<p>
+			Before shorten: ${url} <br>
+			After shorten:  <a href=${shortUrl}>${shortUrl}</a>
+		</p>
+	`
+}
+export function getShortenHtmlController(ctx) {
+	ctx.response.body = beforeShortenView()
 }
 
 export function shortenUrlController(ctx) {
@@ -35,12 +46,7 @@ export function shortenUrlController(ctx) {
 
 		let shortUrl = `${hostName}/${expandPath}/${shortUrlSegment}`;
 		console.log("shortUrl ", shortUrl);
-		ctx.response.body = `
-		<p>
-			Before shorten: ${url} <br>
-			After shorten:  <a href=${shortUrl}>${shortUrl}</a>
-		</p>
-		`;
+		ctx.response.body = afterShortenView(url, shortUrl);
 	} 
 	catch (error) {
 		ctx.response.body = error;
