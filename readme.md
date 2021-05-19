@@ -19,7 +19,7 @@ URI: `/shorten`
 Request Body Sample:
 ```
 {
-"originalUrl": "https://google.com"
+ "originalUrl": "https://google.com"
 }
 ```
 
@@ -28,6 +28,6 @@ Method: GET
 URI: `/expand/1`
 Response: 
 ```
-Success: 302 Redirect to target URL
-Fail: 302 Redirect to /short
+ Success: 302 Redirect to target URL
+ Fail: 302 Redirect to /short
 ```
